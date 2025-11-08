@@ -1,0 +1,253 @@
+export const demoData = {
+  'ktb.accounts': [
+    {
+      id: 'acc-main',
+      name: 'บัญชีกลาง (Operating)',
+      number: '123-456789-0',
+      balance: 8450000,
+      todayIn: 540000,
+      todayOut: 320000,
+      status: 'พร้อมใช้งาน',
+    },
+    {
+      id: 'acc-payroll',
+      name: 'บัญชีเงินเดือน',
+      number: '234-567890-1',
+      balance: 2950000,
+      todayIn: 0,
+      todayOut: 1250000,
+      status: 'กันสำรอง',
+    },
+    {
+      id: 'acc-reserve',
+      name: 'บัญชีสำรองสภาพคล่อง',
+      number: '987-654321-2',
+      balance: 5200000,
+      todayIn: 150000,
+      todayOut: 0,
+      status: 'พร้อมใช้งาน',
+    },
+    {
+      id: 'acc-invest',
+      name: 'บัญชีลงทุน (MMF)',
+      number: '777-888999-0',
+      balance: 3100000,
+      todayIn: 200000,
+      todayOut: 100000,
+      status: 'กันสำรอง',
+    },
+  ],
+  'ktb.transactions': [
+    {
+      id: 'tx-0001',
+      type: 'Payroll',
+      counterparty: 'พนักงาน 48 คน',
+      amount: -1250000,
+      accountId: 'acc-payroll',
+      status: 'ชำระเรียบร้อย',
+      timestamp: '2025-03-15T09:00:00+07:00',
+      reference: 'Payroll-Mar15',
+    },
+    {
+      id: 'tx-0002',
+      type: 'ลูกค้า A',
+      counterparty: 'AER Tech',
+      amount: 890000,
+      accountId: 'acc-main',
+      status: 'อนุมัติแล้ว',
+      timestamp: '2025-03-14T15:20:00+07:00',
+      reference: 'INV-4588',
+    },
+    {
+      id: 'tx-0003',
+      type: 'Bulk Payment',
+      counterparty: 'ซัพพลายเออร์ Logistics',
+      amount: -420000,
+      accountId: 'acc-main',
+      status: 'รอดำเนินการ',
+      timestamp: '2025-03-14T10:05:00+07:00',
+      reference: 'BATCH-0314',
+    },
+    {
+      id: 'tx-0004',
+      type: 'FX Settlement',
+      counterparty: 'USD Spot',
+      amount: 520000,
+      accountId: 'acc-reserve',
+      status: 'อนุมัติแล้ว',
+      timestamp: '2025-03-13T13:40:00+07:00',
+      reference: 'FX-USD-13MAR',
+    },
+    {
+      id: 'tx-0005',
+      type: 'ค่าพลังงานโรงงาน',
+      counterparty: 'MEA',
+      amount: -280000,
+      accountId: 'acc-main',
+      status: 'ชำระเรียบร้อย',
+      timestamp: '2025-03-12T11:15:00+07:00',
+      reference: 'UTILITY-0312',
+    },
+    {
+      id: 'tx-0006',
+      type: 'ลูกค้า B',
+      counterparty: 'Thai Auto Components',
+      amount: 1250000,
+      accountId: 'acc-main',
+      status: 'รอดำเนินการ',
+      timestamp: '2025-03-11T16:55:00+07:00',
+      reference: 'INV-4590',
+    },
+  ],
+  'ktb.cashflow': [
+    { id: 'cf-1', date: '6 มี.ค.', inflow: 1.1, outflow: 0.7 },
+    { id: 'cf-2', date: '7 มี.ค.', inflow: 1.4, outflow: 0.9 },
+    { id: 'cf-3', date: '8 มี.ค.', inflow: 0.9, outflow: 0.8 },
+    { id: 'cf-4', date: '9 มี.ค.', inflow: 1.6, outflow: 1.0 },
+    { id: 'cf-5', date: '10 มี.ค.', inflow: 0.8, outflow: 0.6 },
+    { id: 'cf-6', date: '11 มี.ค.', inflow: 1.9, outflow: 1.3 },
+    { id: 'cf-7', date: '12 มี.ค.', inflow: 2.2, outflow: 1.1 },
+    { id: 'cf-8', date: '13 มี.ค.', inflow: 1.0, outflow: 1.5 },
+  ],
+  'ktb.approvals': [
+    {
+      id: 'ap-230',
+      title: 'Payroll รอบ 30 มี.ค.',
+      detail: 'พนักงาน 50 รายการ • 1.32M THB',
+      submittedBy: 'คุณมนัสนันท์',
+      level: 'L2',
+    },
+    {
+      id: 'ap-231',
+      title: 'Bulk Payment - วัตถุดิบ',
+      detail: '6 รายการ • 610K THB',
+      submittedBy: 'คุณวุฒิชัย',
+      level: 'L1',
+    },
+    {
+      id: 'ap-232',
+      title: 'เพิ่มวงเงิน OD',
+      detail: 'OD 30M THB • ต้องอนุมัติ CFO',
+      submittedBy: 'Treasury Team',
+      level: 'L3',
+    },
+  ],
+  'ktb.payroll': [
+    { id: 'pay-0315', cycle: 'รอบ 15 มี.ค.', employees: 48, status: 'รออนุมัติ', cutOff: '13 มี.ค. 18:00' },
+    { id: 'pay-0330', cycle: 'รอบ 30 มี.ค.', employees: 52, status: 'กำลังดำเนินการ', cutOff: '28 มี.ค. 18:00' },
+    { id: 'pay-0415', cycle: 'รอบ 15 เม.ย.', employees: 55, status: 'วางแผน', cutOff: '13 เม.ย. 18:00' },
+  ],
+  'ktb.cheques': [
+    { id: 'chk-100', action: 'ออกเช็ค', detail: 'SCB Supply Co. • 380K THB', status: 'ต้องทำทันที', due: 'วันนี้' },
+    { id: 'chk-101', action: 'อายัดเช็ค', detail: 'Cheque #1290 • เอกสารหาย', status: 'ดำเนินการแล้ว', due: 'เสร็จสิ้น' },
+    { id: 'chk-102', action: 'ปลดอายัด', detail: 'Cheque #1281', status: 'ต้องทำทันที', due: 'ภายใน 4 ชม.' },
+  ],
+  'ktb.owner.insights': [
+    { id: 'ins-1', label: 'เงินส่วนตัวพร้อมใช้', value: 1800000, type: 'currency', helper: 'หลังหักภาษีสำรอง' },
+    { id: 'ins-2', label: 'Runway สภาพคล่อง', value: '45 วัน', type: 'text', helper: 'คำนวณจากค่าใช้จ่ายเฉลี่ย' },
+  ],
+  'ktb.owner.distributions': [
+    { id: 'dist-1', title: 'เงินเดือนผู้ถือหุ้น', amount: 250000, schedule: 'โอนอัตโนมัติ 30 มี.ค.', status: 'พร้อมจ่าย' },
+    { id: 'dist-2', title: 'เงินปันผลสะสม', amount: 650000, schedule: 'รออนุมัติผู้ถือหุ้นร่วม', status: 'ต้องอนุมัติ' },
+  ],
+  'ktb.owner.meetings': [
+    { id: 'meet-1', title: 'CEO Sync', time: '10:30', channel: 'On-site', participants: 'ทีมปฏิบัติการ' },
+    { id: 'meet-2', title: 'Supplier Review', time: '14:00', channel: 'Video Call', participants: 'ฝ่ายจัดซื้อ' },
+  ],
+  'ktb.owner.todos': [
+    { id: 'todo-1', title: 'ตรวจ Payroll รอบ 30 มี.ค.', due: 'ภายในวันนี้', priority: 'high', done: false },
+    { id: 'todo-2', title: 'ยืนยันแพ็กเกจประกันโรงงาน', due: 'พรุ่งนี้', priority: 'medium', done: false },
+    { id: 'todo-3', title: 'เตรียมเอกสาร BOI รอบใหม่', due: 'สัปดาห์นี้', priority: 'medium', done: false },
+  ],
+  'ktb.owner.documents': [
+    { id: 'doc-1', title: 'สัญญาซัพพลายเออร์ A', status: 'รอลงนาม', updated: '14 มี.ค.' },
+    { id: 'doc-2', title: 'ใบสั่งซื้อเครื่องจักร', status: 'รอตรวจทาน', updated: '13 มี.ค.' },
+    { id: 'doc-3', title: 'สัญญาเงินกู้ OD', status: 'รอลงนาม', updated: '12 มี.ค.' },
+  ],
+  'ktb.owner.alerts': [
+    { id: 'alert-1', title: 'บัญชี Payroll ต่ำกว่าเกณฑ์', detail: 'เหลือ 2.9M THB', tone: 'warning' },
+    { id: 'alert-2', title: 'ภาษีธุรกิจถึงกำหนด', detail: 'งวด มี.ค. กำหนด 20 มี.ค.', tone: 'info' },
+    { id: 'alert-3', title: 'เอกสาร OD ค้างลงนาม', detail: 'ครบกำหนด 18 มี.ค.', tone: 'warning' },
+  ],
+  'ktb.owner.strategies': [
+    {
+      id: 'str-1',
+      type: 'succession',
+      objective: 'จัดตั้ง Family Trust พร้อมนโยบายโอนหุ้น',
+      owner: 'Wealth Planner',
+      targetDate: '2025-06-30',
+      status: 'กำลังดำเนินการ',
+    },
+    {
+      id: 'str-2',
+      type: 'liquidity',
+      objective: 'เปิดวงเงิน OD 30 ล้านบาท เพื่อสำรอง Payroll 2 รอบ',
+      owner: 'Treasury Team',
+      targetDate: '2025-04-15',
+      status: 'วางแผน',
+    },
+  ],
+  'ktb.ai.goals': [
+    {
+      id: 'goal-1',
+      name: 'โรงงานอัจฉริยะ',
+      initialAmount: 5500000,
+      monthlyContribution: 200000,
+      horizon: 4,
+      objective: 'อัปเกรดสายการผลิตอัตโนมัติ',
+    },
+  ],
+  'ktb.ai.advisors': [
+    { id: 'adv-1', name: 'คุณอรัญ', industry: 'manufacturing', expertise: 'Lean + Automation', region: 'Bangkok' },
+    { id: 'adv-2', name: 'คุณเพชร', industry: 'tech', expertise: 'AI/Data Strategy', region: 'Singapore' },
+    { id: 'adv-3', name: 'คุณพิมพ์', industry: 'family', expertise: 'Succession & Trust', region: 'Bangkok' },
+  ],
+  'ktb.ai.notes': [
+    { id: 'note-1', label: 'ดัชนีโลจิสติกส์ Q1', source: 'BOT Insight', detail: 'ต้นทุนขนส่งลดลง 8% QoQ คาดผลบวกต่อ margin สายส่งออก' },
+    { id: 'note-2', label: 'Tech Adoption Grant', source: 'BOI', detail: 'มีเงินสนับสนุน 30% สำหรับโครงการ Digital Factory' },
+  ],
+  'ktb.invest.opportunities': [
+    {
+      id: 'inv-1',
+      name: 'กองทุนตราสารหนี้สภาพคล่อง',
+      category: 'mutualFund',
+      amount: 2000000,
+      priority: 'medium',
+      targetDate: '2025-04-05',
+      notes: 'เน้นพักเงินฉุกเฉินให้ได้ดอกเบี้ยเพิ่ม'
+    },
+    {
+      id: 'inv-2',
+      name: 'ขยายไลน์ผลิตเครื่องจักร CNC',
+      category: 'machine',
+      amount: 4500000,
+      priority: 'high',
+      targetDate: '2025-05-15',
+      notes: 'ลดเวลา setup 30%'
+    },
+    {
+      id: 'inv-3',
+      name: 'ลงทุนทองคำป้องกันความเสี่ยง',
+      category: 'gold',
+      amount: 1000000,
+      priority: 'low',
+      targetDate: '2025-04-30',
+      notes: 'ทยอยซื้อเมื่อราคาต่ำ'
+    },
+    {
+      id: 'inv-4',
+      name: 'ระบบ ERP ใหม่',
+      category: 'upgrade',
+      amount: 2500000,
+      priority: 'medium',
+      targetDate: '2025-05-10',
+      notes: 'เชื่อม workflow การเงิน/ผลิต'
+    },
+  ],
+};
+
+export const demoSeed = () => {
+  Object.entries(demoData).forEach(([key, value]) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  });
+};
