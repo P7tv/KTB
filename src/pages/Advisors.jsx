@@ -3,7 +3,8 @@ import { usePersistentState } from '../hooks/usePersistentState.js';
 import { usePersistentList } from '../hooks/usePersistentList.js';
 import { getMessages } from '../utils/i18n.js';
 
-const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+const GEMINI_MODEL = 'gemini-2.0-flash-lite';
+const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 async function askGemini({ apiKey, prompt }) {
   const response = await fetch(`${GEMINI_ENDPOINT}?key=${apiKey}`, {
@@ -24,6 +25,7 @@ function Advisors() {
   const [apiKey, setApiKey] = usePersistentState('ktb.ai.apiKey', envKey);
   const [settings] = usePersistentState('ktb.settings', {});
   const advisors = usePersistentList('ktb.ai.advisors')[0];
+  const effectiveKey = envKey || apiKey;
   const t = getMessages(settings.language);
 
   const [legalInput, setLegalInput] = useState('');
@@ -36,21 +38,20 @@ function Advisors() {
   const basePrompt = (type, text) => {
     const language = settings.aiLanguage === 'en' ? 'English' : 'Thai';
     const advisorLines = advisors.map((adv) => `${adv.name} (${adv.industry}) - ${adv.expertise}`).join('\n');
-    return `You are a ${type} advisor for Thai SME owners. Reply in ${language}. Use the advisor roster below when giving recommendations. Provide concise bullet advice (legal compliance, tax efficiency, next steps).\nAdvisors:\n${advisorLines}\nUSER QUESTION:\n${text}`;
+    return `You are a ${type} advisor for Thai SME owners. Reply in ${language}. Use the advisor roster below when giving recommendations. Provide concise bullet advice (legal compliance, tax efficiency, next steps). Think through your reasoning with a chain-of-thought internally before responding, then output only the final recommendations in ${language} without exposing the reasoning.\nAdvisors:\n${advisorLines}\nUSER QUESTION:\n${text}`;
   };
 
   const handleAsk = async (type) => {
     const question = type === 'legal' ? legalInput : taxInput;
     if (!question.trim()) return;
-    const key = envKey || apiKey;
-    if (!key) {
+    if (!effectiveKey) {
       setError('กรุณาตั้งค่า Gemini API Key ก่อน');
       return;
     }
     setError('');
     setLoading(type);
     try {
-      const reply = await askGemini({ apiKey: key, prompt: basePrompt(type, question) });
+      const reply = await askGemini({ apiKey: effectiveKey, prompt: basePrompt(type, question) });
       if (type === 'legal') setLegalOutput(reply);
       else setTaxOutput(reply);
     } catch (err) {
@@ -69,7 +70,7 @@ function Advisors() {
         </div>
       </header>
 
-      {!envKey && (
+      {!effectiveKey && (
         <section className="card settings-section">
           <div className="setting-row">
             <div>

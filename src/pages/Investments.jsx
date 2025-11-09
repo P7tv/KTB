@@ -7,6 +7,8 @@ import { formatCurrency } from '../utils/formatters.js';
 import { getMessages } from '../utils/i18n.js';
 
 const DEFAULT_RETURN = 0.06;
+const GEMINI_MODEL = 'gemini-2.0-flash-lite';
+const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 function buildProjection(goal, rate = DEFAULT_RETURN) {
   if (!goal) return [];
@@ -44,7 +46,7 @@ function Investments() {
   const forecastPrompt = () => {
     if (!selectedGoal) return '';
     const targetLanguage = settings.aiLanguage === 'en' ? 'English' : 'Thai';
-    return `You are a financial planner. Given this goal data: name=${selectedGoal.name}, initial=${selectedGoal.initialAmount}, monthly=${selectedGoal.monthlyContribution}, horizon=${selectedGoal.horizon} years. Respond in ${targetLanguage}. Return JSON array only, like [{"label":"Y1","value":12345},...], showing projected balance each year using realistic SME investment assumptions (consider mix of deposits, emergency fund redeployment, business reinvestment). No prose.`;
+    return `You are a financial planner. Given this goal data: name=${selectedGoal.name}, initial=${selectedGoal.initialAmount}, monthly=${selectedGoal.monthlyContribution}, horizon=${selectedGoal.horizon} years. Respond in ${targetLanguage}. Return JSON array only, like [{"label":"Y1","value":12345},...], showing projected balance each year using realistic SME investment assumptions (consider mix of deposits, emergency fund redeployment, business reinvestment). Think through the forecast with a private chain-of-thought, then output ONLY the JSON array (no prose).`;
   };
 
   const runGeminiForecast = async () => {
@@ -56,14 +58,11 @@ function Investments() {
     setForecastError('');
     setForecastLoading(true);
     try {
-      const response = await fetch(
-        'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + effectiveKey,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ contents: [{ parts: [{ text: forecastPrompt() }] }] }),
-        }
-      );
+      const response = await fetch(`${GEMINI_ENDPOINT}?key=${effectiveKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: forecastPrompt() }] }] }),
+      });
       if (!response.ok) {
         const errText = await response.text();
         throw new Error(errText || 'Gemini error');
@@ -155,7 +154,7 @@ function Investments() {
                 เงินตั้งต้น {formatCurrency(selectedGoal.initialAmount || 0)} | ออมต่อเดือน {formatCurrency(selectedGoal.monthlyContribution || 0)} | {selectedGoal.horizon} ปี
               </small>
             )}
-            {!envGeminiKey && (
+            {!effectiveKey && (
               <input type="password" placeholder="Gemini API Key" value={geminiKey} onChange={(e) => setGeminiKey(e.target.value)} />
             )}
           <button className="primary" type="button" disabled={forecastLoading} onClick={runGeminiForecast}>

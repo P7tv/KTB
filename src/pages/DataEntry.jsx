@@ -8,6 +8,9 @@ import { formatCurrency } from '../utils/formatters.js';
 import { demoSeed, demoData } from '../utils/demoData.js';
 import { getMessages } from '../utils/i18n.js';
 
+const GEMINI_MODEL = 'gemini-2.0-flash-lite';
+const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+
 const toNumber = (value) => Number(value || 0);
 
 function DataEntry() {
@@ -370,7 +373,7 @@ function DataEntry() {
     });
   };
 
-  const promptGeminiDemo = () => `You are generating mock operational data for a Thai SME manufacturing company. Respond with **JSON only** using the exact structure shown below. Keep text in Thai, keep numbers as numbers (no commas), and ensure arrays have rich realistic data (>=5 accounts, >=50 transactions over several days, >=10 combined approvals/payroll/cheques, >=5 strategies). Include timestamps in ISO format with +07:00. 
+  const promptGeminiDemo = () => `You are generating mock operational data for a Thai SME manufacturing company. Respond with **JSON only** using the exact structure shown below. Keep text in Thai, keep numbers as numbers (no commas), and ensure arrays have rich realistic data (>=5 accounts, >=50 transactions over several days, >=10 combined approvals/payroll/cheques, >=5 strategies). Include timestamps in ISO format with +07:00. Think through the dataset composition with a private chain-of-thought before replying, then return only the final JSON with no commentary. 
 
 Example (truncated):
 {
@@ -394,14 +397,11 @@ Now generate a full dataset following that structure with the quantity requireme
     setDemoError('');
     setDemoLoading(true);
     try {
-      const response = await fetch(
-        'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + effectiveGeminiKey,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ contents: [{ parts: [{ text: promptGeminiDemo() }] }] }),
-        }
-      );
+      const response = await fetch(`${GEMINI_ENDPOINT}?key=${effectiveGeminiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: promptGeminiDemo() }] }] }),
+      });
       if (!response.ok) {
         const errText = await response.text();
         throw new Error(errText || 'ไม่สามารถเรียก Gemini ได้');
@@ -440,7 +440,7 @@ Now generate a full dataset following that structure with the quantity requireme
           <p>กรอก ปรับ และลบข้อมูลที่จะถูกนำไปแสดงใน Dashboard และมุมมองเจ้าของ</p>
         </div>
         <div className="toolbar-actions data-toolbar-actions">
-            {!envGeminiKey && (
+            {!effectiveGeminiKey && (
               <input
                 type="password"
                 placeholder="Gemini API Key"
