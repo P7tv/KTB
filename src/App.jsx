@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, NavLink, Navigate, Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/Dashboard.jsx';
 import OwnerConsole from './pages/OwnerConsole.jsx';
@@ -13,10 +13,30 @@ import Settings from './pages/Settings.jsx';
 import AiAssistantWidget from './components/AiAssistantWidget.jsx';
 import { usePersistentState } from './hooks/usePersistentState.js';
 import { getMessages } from './utils/i18n.js';
+import { demoData, demoSeed } from './utils/demoData.js';
+
+const DEMO_FLAG_KEY = 'ktb.demo.initialized';
 
 function App() {
   const [settings] = usePersistentState('ktb.settings', {});
   const t = getMessages(settings.language);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const alreadyInitialized = window.localStorage.getItem(DEMO_FLAG_KEY) === 'true';
+      if (alreadyInitialized) return;
+
+      const hasAnyDataset = Object.keys(demoData).some((key) => !!window.localStorage.getItem(key));
+      if (!hasAnyDataset) {
+        demoSeed();
+      }
+      window.localStorage.setItem(DEMO_FLAG_KEY, 'true');
+    } catch (error) {
+      console.error('Auto demo seeding failed', error);
+    }
+  }, []);
+
   const navItems = [
     { label: t.menu.overview, to: '/' },
     { label: t.menu.owner, to: '/owner' },
