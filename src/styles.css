@@ -1092,6 +1092,46 @@ button:hover {
   }
 }
 
+@media (max-width: 1024px) {
+  main {
+    padding: 1.75rem;
+  }
+
+  .toolbar h1 {
+    font-size: 1.8rem;
+  }
+
+  .nav-shell {
+    gap: 1.5rem;
+  }
+
+  .nav-shell nav ul {
+    gap: 0.35rem;
+  }
+
+  .grid.content,
+  .grid.split,
+  .transactions-layout,
+  .payroll-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .grid.stats {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .table-head,
+  .table-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .advisor-grid,
+  .investment-grid,
+  .data-section-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
 @media (max-width: 860px) {
   .grid.content,
   .grid.split {
@@ -1116,16 +1156,127 @@ button:hover {
 }
 
 @media (max-width: 640px) {
-  main {
-    padding: 1.5rem;
+  .workspace {
+    grid-template-columns: 1fr;
   }
 
   .nav-shell {
     flex-direction: column;
     align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom-left-radius: 32px;
+    border-bottom-right-radius: 32px;
+  }
+
+  .nav-shell nav {
+    width: 100%;
+  }
+
+  .nav-shell nav ul {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-shell nav ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-shell nav li {
+    flex: 0 0 auto;
+  }
+
+  .nav-link {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  main {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .toolbar-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toolbar-actions button,
+  .toolbar-actions input,
+  .data-toolbar-actions input {
+    width: 100%;
+  }
+
+  .grid.stats {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 1.25rem;
+  }
+
+  .table-head,
+  .table-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .tabs {
     flex-direction: column;
+    width: 100%;
+  }
+
+  .ai-widget {
+    right: 0.75rem;
+    bottom: 0.75rem;
+  }
+
+  .ai-widget-panel {
+    width: min(420px, calc(100vw - 1.5rem));
+    right: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .toolbar h1 {
+    font-size: 1.5rem;
+  }
+
+  button.primary,
+  button.ghost {
+    width: 100%;
+  }
+
+  .grid.content,
+  .grid.split,
+  .investment-grid,
+  .advisor-grid,
+  .data-section-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inline-form__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-widget-panel {
+    position: fixed;
+    bottom: 90px;
+    right: 0.75rem;
+    left: 0.75rem;
+    width: auto;
+    max-width: none;
   }
 }
